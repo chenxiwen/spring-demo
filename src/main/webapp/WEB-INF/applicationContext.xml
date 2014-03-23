@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="helloWorld" class="com.ender.demo.spring.beans.HelloWorldImpl">
+        <!-- collaborators and configuration for this bean go here -->
+        <property name="world" value="World" />
+    </bean>
+
+<!-- 
+    <bean id="..." class="...">
+    
+    </bean>
+-->
+    <!-- more bean definitions go here -->
+
+</beans>

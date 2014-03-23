@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-lazy-init="true" xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd" >
+     
+     <!-- 使用类的默认构造方法进行实例获取 -->
+     <bean id="serviceBean1" class="com.ender.demo.spring.beans.initWays.ServiceBeanImpl" />
+     
+     <!-- 使用静态工厂进行实例化对象获取 static静态编译好可以直接调用不需要实例化 -->   
+     <bean id="serviceBean2" class="com.ender.demo.spring.beans.initWays.ServiceBeanStaticFactory"
+     						 factory-method="getServiceBean" />
+     						 
+  	 <!-- 使用实例工厂方法获取实例化对象 由于不是静态方法，因此需要先实例化一个工厂对象，再由工厂对象提供需要的业务对象-->
+  	 <bean id="serviceBeanFactory" class="com.ender.demo.spring.beans.initWays.ServiceBeanFactory" />
+  	 <bean id="serviceBean3" factory-bean="serviceBeanFactory" factory-method="getServiceBean" />
+
+</beans>

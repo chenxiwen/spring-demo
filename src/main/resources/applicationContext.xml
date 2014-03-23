@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-lazy-init="true" xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop  
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+
+
+    <bean id="helloWorld" class="com.ender.demo.spring.beans.HelloWorldImpl" lazy-init="true">
+        <!-- collaborators and configuration for this bean go here -->
+        <property name="world" value="World!"></property>
+        <property name="userDao" ref="userDao"></property>
+    </bean>
+
+    <bean id="userDao" class="com.ender.demo.spring.beans.UserDaoImpl">
+		  <property name="properties">
+		  	<props>
+		  		<prop key="username">ender</prop>
+		  		<prop key="password">md5Str</prop>
+		  		<prop key="email">chenxiwenender@163.com</prop>
+		  	</props>
+		  </property> 
+		  
+		  <property name="list">
+		  	<list>
+		  		<value>rootElement</value>
+		  		<value>secondElement</value>
+		  		<ref bean="helloWorld"/>
+		  	</list>
+		  </property> 
+		  
+		  <property name="set">
+		  	<set>
+		  		<value>Str1</value>
+		  		<value>Str2</value>
+		  		<ref bean="helloWorld"/>
+		  	</set>
+		  </property>
+		  
+		  <property name="map">
+		  	<map>
+		  		<entry key="str1" value="String1"></entry>
+		  		<entry key="DoubleNo" value="20.123"></entry>
+		  		<entry key="object" value-ref="helloWorld" />
+		  	</map>
+		  </property>
+    </bean>
+    
+    <!-- Dependency Injection of Setter Demo -->
+    <bean id="dependencyInjectionSetter" class="com.ender.demo.spring.beans.DependencyInjectionSetterImpl">
+    	<property name="userDao" ref="userDao"></property>
+    </bean>
+    
+    <!-- Dependency Injection of Contructor Demo -->
+    <bean id="dependencyInjectionConstructor" class="com.ender.demo.spring.beans.DependencyInjectionConstructorImpl">
+    	<constructor-arg index="0" name="userDao" ref="userDao"></constructor-arg>
+    	<constructor-arg index="1" name="name" value="world"></constructor-arg>
+    </bean>
+    
+    <!-- Dependency Injection of Contructor Variant Demo -->
+    <bean id="dependencyInjectionConstructorVariant" 
+    	class="com.ender.demo.spring.beans.DependencyInjectionConstructorVariantImpl"
+    		factory-method="createInstance">
+    	<constructor-arg index="0" name="userDao" ref="userDao"></constructor-arg>
+    	<constructor-arg index="1" name="name" value="ender"></constructor-arg>
+    </bean>
+    
+    
+    <!-- more bean definitions go here -->
+    
+    <bean id="tank" class="com.ender.demo.spring.Tank" scope="prototype">
+    	
+    </bean>
+   
+    <!-- apo config -->
+    
+    <aop:aspectj-autoproxy />
+     <!-- <bean name="logInterceptorAnnotation" class="com.ender.demo.spring.aop.LogInterceptorAnnotation" /> -->
+    
+    <bean name="logInterceptor" class="com.ender.demo.spring.aop.LogInterceptor"></bean>
+    <bean name="testBean" class="com.ender.demo.spring.aop.TestBeanImpl"></bean>
+  
+    <aop:config>
+    	<aop:aspect id="testAop" ref="logInterceptor">
+     		<aop:pointcut id="aspectJ" expression="execution(* com.ender.demo.spring.aop..*.*(..))"/>
+	   		<aop:before method="before"  pointcut-ref="aspectJ"/>
+    		<aop:after method="after" pointcut-ref="aspectJ"/>
+    		<aop:around method="around" pointcut-ref="aspectJ"/>
+    		<aop:after-throwing pointcut-ref="aspectJ" method="doThrowing" throwing="ex"/>  
+    	</aop:aspect>
+    </aop:config>
+
+</beans>
